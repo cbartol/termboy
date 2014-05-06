@@ -109,6 +109,10 @@ void Interface::run() {
   system.run();
 }
 
+void Interface::dump() {
+  system.dump();
+}
+
 serializer Interface::serialize() {
   system.runtosave();
   return system.serialize();

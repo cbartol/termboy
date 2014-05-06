@@ -28,6 +28,7 @@ struct System : property<System> {
   void init();
   void load(Revision);
   void power();
+  void dump();
 
   unsigned clocks_executed;
 

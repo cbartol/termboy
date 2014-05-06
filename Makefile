@@ -79,6 +79,7 @@ clean:
 	-@$(call delete,obj/*.dll)
 	-@$(call delete,*.res)
 	-@$(call delete,*.manifest)
+	-@$(call delete,/tmp/benchmarks.*)
 
 archive:
 	if [ -f termboy.tar.xz ]; then rm termboy.tar.xz; fi

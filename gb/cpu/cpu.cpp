@@ -1,4 +1,8 @@
 #include <gb/gb.hpp>
+#include <iostream>
+#include <fstream>
+#include <ctime>
+#include <vector>
 
 #define CPU_CPP
 namespace GameBoy {
@@ -9,11 +13,17 @@ namespace GameBoy {
 #include "serialization.cpp"
 CPU cpu;
 
+void CPU::dump() {
+  LR35902::dump();
+}
+
 void CPU::Main() {
   cpu.main();
 }
 
 void CPU::main() {
+	std::clock_t time;
+
   while(true) {
     if(scheduler.sync == Scheduler::SynchronizeMode::CPU) {
       scheduler.sync = Scheduler::SynchronizeMode::All;
@@ -21,7 +31,23 @@ void CPU::main() {
     }
 
     interrupt_test();
+
+    time = std::clock();
     exec();
+    double final_time = double(std::clock() - time) / (double)CLOCKS_PER_SEC;
+    if(max_times[last_inst] < final_time )
+        max_times[last_inst] = final_time;
+
+    if(cb_max_times[last_inst] < final_time )
+        cb_max_times[last_inst] = final_time;
+
+    if( cb_operation ) {
+     cb_times[last_inst] = (final_time +  times[last_inst]) / 2;
+     cb_operation = false;
+    } else {
+     times[last_inst] = (final_time +  times[last_inst]) / 2; 
+    }
+
   }
 }
 

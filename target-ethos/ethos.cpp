@@ -131,16 +131,14 @@ Program::Program(int argc, char** argv) {
 
 //TODO: Come up with a solution that is guaranteed to work when multiple threads are running
 void sighandler(int sig) {
+  system().dump();
+
   init_color(COLOR_WHITE, white.r, white.g, white.b);
   init_color(COLOR_BLACK, black.r, black.g, black.b);
   int ret1 = init_color(COLOR_RED, red.r, red.g, red.b);
   init_color(COLOR_GREEN, green.r, green.g, green.b);
   init_color(COLOR_YELLOW, yellow.r, yellow.g, yellow.b);
 
-  //FILE *fp;
-  //fp = fopen("/home/dobyrch/Documents/termboy/out.log", "w");
-  //fprintf(fp, "In handler\n");
-  //fprintf(fp, "Setting color: %d\n", ret1);
 
   endwin();
   //fprintf(fp, "Closed window\n");
@@ -157,6 +155,7 @@ void sighandler(int sig) {
   //fprintf(fp, "Caught signal: %d\n", sig);
   //fprintf(fp, "Printed signal\n");
   //fclose(fp);
+
   exit(0);
 }
 

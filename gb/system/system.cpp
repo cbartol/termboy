@@ -72,6 +72,10 @@ void System::power() {
   clocks_executed = 0;
 }
 
+void System::dump() {
+  cpu.dump();
+}
+
 System::System() {
   for(auto& byte : bootROM.dmg) byte = 0;
   for(auto& byte : bootROM.sgb) byte = 0;

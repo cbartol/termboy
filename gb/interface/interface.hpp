@@ -52,6 +52,7 @@ struct Interface : Emulator::Interface {
   void power();
   void reset();
   void run();
+  void dump();
 
   serializer serialize();
   bool unserialize(serializer&);

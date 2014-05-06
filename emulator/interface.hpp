@@ -94,6 +94,7 @@ struct Interface {
   virtual void power() {}
   virtual void reset() {}
   virtual void run() {}
+  virtual void dump() {  }
 
   //time functions
   virtual bool rtc() { return false; }

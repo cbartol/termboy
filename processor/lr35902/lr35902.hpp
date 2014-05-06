@@ -8,12 +8,26 @@ namespace Processor {
 struct LR35902 {
   #include "registers.hpp"
 
+  std::vector<void (LR35902::*)()> instructions = std::vector<void (LR35902::*)()>(256);
+     
+  uint8 last_inst = 0;
+  int instruction_count = 0;
+  std::vector<double> times = std::vector<double>(256,0);
+  std::vector<double> max_times = std::vector<double>(256,0);
+  std::vector<int> inst_counter = std::vector<int>(256,0);
+
+  bool cb_operation = false;
+  std::vector<int> cb_inst_counter = std::vector<int>(256,0);
+  std::vector<double> cb_max_times = std::vector<double>(256,0);
+  std::vector<double> cb_times = std::vector<double>(256,0);
+
   virtual void op_io() = 0;
   virtual uint8 op_read(uint16 addr) = 0;
   virtual void op_write(uint16 addr, uint8 data) = 0;
   virtual bool stop() = 0;
   virtual uint8 debugger_read(uint16 addr) { return 0u; }
 
+  void dump();
   void power();
   void exec();
   void exec_cb();

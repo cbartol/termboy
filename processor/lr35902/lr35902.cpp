@@ -1,11 +1,54 @@
 #include <processor/processor.hpp>
 #include "lr35902.hpp"
+#include <iostream>
+#include <fstream>
+#include <ostream>
 
 namespace Processor {
 
 #include "instructions.cpp"
 #include "disassembler.cpp"
 #include "serialization.cpp"
+
+void LR35902::dump() {
+    std::ofstream txt, csv;
+    txt.open("/tmp/benchmarks.txt", std::ios::out);
+    csv.open("/tmp/benchmarks.csv", std::ios::out);
+
+    txt  << "Benchmarks for Termboy total instructions: " << instruction_count << std::endl;
+    txt  << "-------------------------------------------" << std::endl;
+
+    csv  << "INSTRUCTION, COUNT, AVG TIME, MAX TIME";
+
+
+    for(int i = 0 ; i < 256 ; i++) {
+        if(inst_counter[i] != 0) {
+           txt    << "I-COUNT["<< std::hex << i << "]: " 
+                  << std::dec << inst_counter[i] 
+                  << "\tTIME: "<< std::dec << times[i]
+                  << "\tMAX: "<< max_times[i] << std::endl;
+
+           csv << std::hex << i << std:: dec << "," <<  times[i] << "," << max_times[i] << std::endl;
+            }
+    }
+
+    txt  << "-------------------------------------------" << std::endl;
+    txt  << " CB benchmarks "  << inst_counter[0xcb] << std::endl;
+    txt  << "-------------------------------------------" << std::endl;
+    for(int i = 0 ; i < 256 ; i++) {
+        if(cb_inst_counter[i] != 0) {
+           txt    << "I-COUNT["<< std::hex << i << "]: " 
+                  << std::dec << cb_inst_counter[i] 
+                  << "\tTIME: "<< std::dec << cb_times[i]
+                  << "\tMAX:  "<< cb_max_times[i] << std::endl;
+
+          // csv << std::hex << i << std:: dec << "," <<  times[i] << "," << max_times[i] << std::endl;
+            }
+    }
+
+    txt.close();
+    csv.close();
+}
 
 void LR35902::power() {
   r.halt = false;
@@ -16,6 +59,9 @@ void LR35902::power() {
 
 void LR35902::exec() {
   uint8 opcode = op_read(r[PC]++);
+  last_inst = opcode;
+  inst_counter[opcode]++;
+  instruction_count++;
   switch(opcode) {
   case 0x00: return op_nop();
   case 0x01: return op_ld_rr_nn<BC>();
@@ -277,7 +323,10 @@ void LR35902::exec() {
 }
 
 void LR35902::exec_cb() {
+  cb_operation = true;
   uint8 opcode = op_read(r[PC]++);
+  last_inst = opcode;
+  cb_inst_counter[opcode]++;
   switch(opcode) {
   case 0x00: return op_rlc_r<B>();
   case 0x01: return op_rlc_r<C>();

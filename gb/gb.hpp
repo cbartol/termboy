@@ -2,7 +2,6 @@
 #define GB_HPP
 
 #include <emulator/emulator.hpp>
-#include <processor/lr35902/lr35902.hpp>
 
 namespace GameBoy {
   namespace Info {
@@ -50,6 +49,7 @@ namespace GameBoy {
   #include <gb/system/system.hpp>
   #include <gb/scheduler/scheduler.hpp>
   #include <gb/cartridge/cartridge.hpp>
+  #include <gb/cpu/processor/lr35902.hpp>
   #include <gb/cpu/cpu.hpp>
   #include <gb/ppu/ppu.hpp>
   #include <gb/apu/apu.hpp>

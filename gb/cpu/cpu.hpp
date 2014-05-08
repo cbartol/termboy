@@ -1,4 +1,4 @@
-struct CPU : Processor::LR35902, Thread, MMIO {
+struct CPU : LR35902, Thread, MMIO {
   enum class Interrupt : unsigned {
     Vblank,
     Stat,

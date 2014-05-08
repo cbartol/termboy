@@ -1,7 +1,6 @@
 #ifndef PROCESSOR_LR35902_HPP
 #define PROCESSOR_LR35902_HPP
 
-namespace Processor {
 
 //Sharp LR35902 (Game Boy Z80-derivative)
 
@@ -176,6 +175,5 @@ privileged:
   string disassemble_opcode_cb(uint16 pc);
 };
 
-}
 
 #endif

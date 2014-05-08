@@ -7,6 +7,7 @@
 #define CPU_CPP
 namespace GameBoy {
 
+#include "processor/lr35902.cpp"
 #include "mmio.cpp"
 #include "memory.cpp"
 #include "timing.cpp"
@@ -14,8 +15,9 @@ namespace GameBoy {
 CPU cpu;
 
 void CPU::dump() {
-  LR35902::dump();
+    LR35902::dump();
 }
+
 
 void CPU::Main() {
   cpu.main();

@@ -1,10 +1,9 @@
-#include <processor/processor.hpp>
+#include <emulator/emulator.hpp>
 #include "lr35902.hpp"
 #include <iostream>
 #include <fstream>
 #include <ostream>
 
-namespace Processor {
 
 #include "instructions.cpp"
 #include "disassembler.cpp"
@@ -589,4 +588,4 @@ void LR35902::exec_cb() {
   (this->*cb_instructions[opcode])();
 }
 
-}
+

@@ -7,8 +7,9 @@ namespace Processor {
 
 struct LR35902 {
   #include "registers.hpp"
-  std::vector<void (LR35902::*)()> instructions = std::vector<void (LR35902::*)()>(256);
-  std::vector<void (LR35902::*)()> cb_instructions = std::vector<void (LR35902::*)()>(256);
+
+  void (LR35902::*instructions[256])();
+  void (LR35902::*cb_instructions[256])() ;
      
   uint8 last_inst = 0;
   int instruction_count = 0;

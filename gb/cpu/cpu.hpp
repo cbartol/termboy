@@ -119,20 +119,17 @@ struct CPU : Thread, MMIO {
     void (CPU::*instructions[256])();
     void (CPU::*cb_instructions[256])(); 
 
-    double times[256] = {0.0};
-    double max_times[256] = {0.0};
-    int inst_counter[256] = {0};
-    int cb_inst_counter[256] = {0};
-    double cb_times[256] = {0.0};
-    double cb_max_times[256] = {0.0};
-
-    uint8 last_inst = 0;
+    double global_time;
+    double time;
+    double max_time;
+    double cb_time;
+    double cb_max_time;
     int instruction_count = 0;
     bool cb_operation = false;
 
 
     void dump();
-    void power2();
+    void power_processor();
     void exec();
     void exec_cb();
 
@@ -214,7 +211,6 @@ struct CPU : Thread, MMIO {
     uint8 hram[128];
 
     static void Main();
-    void main();
     void interrupt_raise(Interrupt id);
     void interrupt_test();
     void interrupt_exec(uint16 pc);

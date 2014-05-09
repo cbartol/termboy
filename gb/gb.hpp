@@ -18,7 +18,6 @@ namespace GameBoy {
 */
 
 #include <libco/libco.h>
-
 namespace GameBoy {
   struct Thread {
     cothread_t thread;
@@ -49,7 +48,6 @@ namespace GameBoy {
   #include <gb/system/system.hpp>
   #include <gb/scheduler/scheduler.hpp>
   #include <gb/cartridge/cartridge.hpp>
-  #include <gb/cpu/processor/lr35902.hpp>
   #include <gb/cpu/cpu.hpp>
   #include <gb/ppu/ppu.hpp>
   #include <gb/apu/apu.hpp>

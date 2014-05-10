@@ -33,9 +33,9 @@ void CPU::main() {
     interrupt_test();
     synch_time = double(std::clock() - synch_time) / (double) CLOCKS_PER_SEC;
 
-    time = std::clock();
+    double tmp_time = std::clock();
     exec();
-    double final_time = double(std::clock() - time) / (double)CLOCKS_PER_SEC;
+    double final_time = double(std::clock() - tmp_time) / (double)CLOCKS_PER_SEC;
     if(max_time < final_time )
         max_time = final_time;
 

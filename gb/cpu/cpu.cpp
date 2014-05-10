@@ -22,32 +22,25 @@ void CPU::Main() {
 }
 
 void CPU::main() {
-	std::clock_t time;
-
+ 
   while(true) {
+    double synch_time = std::clock();
     if(scheduler.sync == Scheduler::SynchronizeMode::CPU) {
       scheduler.sync = Scheduler::SynchronizeMode::All;
       scheduler.exit(Scheduler::ExitReason::SynchronizeEvent);
     }
 
     interrupt_test();
+    synch_time = double(std::clock() - synch_time) / (double) CLOCKS_PER_SEC;
 
     time = std::clock();
     exec();
     double final_time = double(std::clock() - time) / (double)CLOCKS_PER_SEC;
-    if(max_times[last_inst] < final_time )
-        max_times[last_inst] = final_time;
+    if(max_time < final_time )
+        max_time = final_time;
 
-    if(cb_max_times[last_inst] < final_time )
-        cb_max_times[last_inst] = final_time;
-
-    if( cb_operation ) {
-     cb_times[last_inst] = (final_time +  times[last_inst]) / 2;
-     cb_operation = false;
-    } else {
-     times[last_inst] = (final_time +  times[last_inst]) / 2; 
-    }
-
+    time = (time != 0) ? (final_time +  time) / 2 : final_time;
+    avg_synch = (avg_synch != 0) ? (synch_time + avg_synch) / 2 : synch_time;
   }
 }
 

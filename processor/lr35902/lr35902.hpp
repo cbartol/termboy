@@ -10,16 +10,12 @@ struct LR35902 {
 
   std::vector<void (LR35902::*)()> instructions = std::vector<void (LR35902::*)()>(256);
      
-  uint8 last_inst = 0;
   int instruction_count = 0;
-  std::vector<double> times = std::vector<double>(256,0);
-  std::vector<double> max_times = std::vector<double>(256,0);
-  std::vector<int> inst_counter = std::vector<int>(256,0);
+  double time = 0;
+  double max_time;
+  double global_time;
+  double avg_synch = 0;
 
-  bool cb_operation = false;
-  std::vector<int> cb_inst_counter = std::vector<int>(256,0);
-  std::vector<double> cb_max_times = std::vector<double>(256,0);
-  std::vector<double> cb_times = std::vector<double>(256,0);
 
   virtual void op_io() = 0;
   virtual uint8 op_read(uint16 addr) = 0;

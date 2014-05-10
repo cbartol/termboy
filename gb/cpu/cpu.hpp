@@ -120,13 +120,13 @@ struct CPU : Thread, MMIO {
     void (CPU::*cb_instructions[256])(); 
 
     double global_time;
-    double time;
+    double time = 0;
     double max_time;
     double cb_time;
     double cb_max_time;
     int instruction_count = 0;
     bool cb_operation = false;
-    double synch_time;
+    double synch_time = 0;
 
 
     void dump();

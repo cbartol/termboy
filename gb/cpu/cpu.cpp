@@ -702,8 +702,8 @@ void CPU::get_times(double final_time, double synch) {
     if(max_time < final_time )
         max_time = final_time;
 
-    time = (final_time + time) / 2;
-    synch_time = (synch_time + synch)/2;
+    time = (time != 0) ? (final_time + time) / 2 : final_time;
+    synch_time = (synch_time != 0) ? (synch_time + synch)/2 : synch;
 }
 
 

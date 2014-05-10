@@ -126,6 +126,7 @@ struct CPU : Thread, MMIO {
     double cb_max_time;
     int instruction_count = 0;
     bool cb_operation = false;
+    double synch_time;
 
 
     void dump();
@@ -133,7 +134,7 @@ struct CPU : Thread, MMIO {
     void exec();
     void exec_cb();
 
-    void get_times(double final_time);
+    void get_times(double final_time, double synch);
 
 
     struct Status {

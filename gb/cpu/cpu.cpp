@@ -690,18 +690,20 @@ void CPU::dump() {
     txt  << "Benchmarks for Termboy:" << std::endl;
     txt  << "-------------------------------------------" << std::endl;
     txt  << "\tTotal Instructions:\t\t" << instruction_count << std::endl;
-    txt  << "\tTotal Time:\t\t\t" << ((double) std::clock() - global_time ) << std::endl;
+    txt  << "\tTotal Time:\t\t\t" << ((double) std::clock() - global_time ) / 1000 << std::endl;
     txt  << "\tMax Time:\t\t\t" << max_time << std::endl;
     txt  << "\tTime/Instruction:\t\t" << time << std::endl;
+    txt  << "\tAvg Time in synch:\t\t\t" << synch_time << std::endl;
 
     txt.close();
 }
 
-void CPU::get_times(double final_time) {
+void CPU::get_times(double final_time, double synch) {
     if(max_time < final_time )
         max_time = final_time;
 
     time = (final_time + time) / 2;
+    synch_time = (synch_time + synch)/2;
 }
 
 
@@ -974,14 +976,16 @@ end: return;
 }
 
 #define d_dispatcher() \
-  final_time = double(std::clock() - time) / (double)CLOCKS_PER_SEC; \
-  get_times(final_time); ddispatcher()
+  final_time = double(std::clock() - exec_time) / (double)CLOCKS_PER_SEC; \
+  get_times(final_time, synch_time); ddispatcher()
 
 #define ddispatcher() \
+  synch_time = std::clock(); \
   if(scheduler.sync == Scheduler::SynchronizeMode::CPU) { \
      scheduler.sync = Scheduler::SynchronizeMode::All;    \
      scheduler.exit(Scheduler::ExitReason::SynchronizeEvent); \
   } test_for_interrupt(); \
+  synch_time = double(std::clock() - synch_time) / (double)CLOCKS_PER_SEC; \
   exec_time = std::clock(); \
   opcode = op_read(r[PC]++); \
   instruction_count++; \
